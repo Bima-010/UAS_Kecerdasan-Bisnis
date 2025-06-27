@@ -66,10 +66,20 @@ if st.button("Validasi Harga", type="primary", use_container_width=True):
         st.write(f"**Harga Setelah Diskon**: Rp {price_after_discount:,.0f}")
 
         # Validasi harga
-        if abs(unit_price - reference_price) > 1000000:
+        price_difference = unit_price - reference_price
+        tolerance = 1000000
+
+        if price_difference > tolerance:
             st.error(
-                f"⚠️ Harga unit tidak sesuai referensi untuk {product_selection} "
-                f"(Referensi: Rp {reference_price:,.0f})"
+                f"⚠️ Harga unit terlalu tinggi untuk {product_selection}! "
+                f"Harga Anda Rp {price_difference:,.0f} lebih besar dari referensi "
+                f"(Referensi: Rp {reference_price:,.0f}). "
+            )
+        elif price_difference < -tolerance:
+            st.error(
+                f"⚠️ Harga unit terlalu rendah untuk {product_selection}! "
+                f"Harga Anda Rp {-price_difference:,.0f} lebih kecil dari referensi "
+                f"(Referensi: Rp {reference_price:,.0f}). "
             )
         else:
             st.success(
@@ -80,7 +90,7 @@ if st.button("Validasi Harga", type="primary", use_container_width=True):
         st.error("Error: Gagal menghitung harga setelah diskon. Periksa input.")
         logging.error(f"Price calculation error: {e}")
         st.stop()
-
+        
 # Tombol Prediksi
 if st.button("Prediksi", type="secondary", use_container_width=True):
     # Siapkan data input untuk prediksi
