@@ -26,12 +26,13 @@ st.subheader("Input Transaksi")
 product_selection = st.selectbox("Pilih Produk", options=list(product_dict.keys()))
 selected_product = product_dict[product_selection]
 reference_price = selected_product['price']
-use_manual_price = st.checkbox("Gunakan Harga Manual")
+use_manual_price = st.checkbox("Masukkan Harga Manual")
+discount = st.selectbox("Pilih Diskon (%)", options=[0, 5, 10, 15])
 if use_manual_price:
     unit_price = st.number_input("Harga Satuan (Rp)", min_value=1000000, max_value=30000000, step=100000, value=reference_price)
 else:
     unit_price = reference_price
-    st.write(f"**Harga Satuan (Otomatis)**: Rp {unit_price:,.0f}")
+    st.write(f"**Harga Satuan**: Rp {unit_price:,.0f}")
 # Detail produk
 selected_product = product_dict[product_selection]
 product_id = selected_product['product_id']
